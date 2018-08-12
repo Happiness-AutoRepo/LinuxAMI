@@ -11,6 +11,8 @@ public class HomePageStepDefs {
 		
 		Driver.getInstance().get(ConfigurationReader.getProperty("url"));
 		System.out.println(Driver.getInstance().getTitle());
+		
+		Thread.sleep(5000);
 	}
 
 }
