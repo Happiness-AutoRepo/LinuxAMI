@@ -23,7 +23,7 @@ public class Hook {
 
 	@After
 	public void tearDown(Scenario scenario) {
-		if (scenario.isFailed()) {
+		if (/*scenario.isFailed()*/true) {
 			final byte[] screenshot = ((TakesScreenshot)
 					Driver.getInstance()).getScreenshotAs(OutputType.BYTES);
 			scenario.embed(screenshot, "image/png");
