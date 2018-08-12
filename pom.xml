@@ -85,7 +85,7 @@
 						</goals>
 
 						<configuration>
-							<forkCount>3</forkCount>
+							<forkCount>2</forkCount>
 							<reuseForks>true</reuseForks>
 							<includes>
 								<include>**/*IT.class</include>
