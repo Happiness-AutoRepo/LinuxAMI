@@ -19,8 +19,8 @@ public class Driver {
 
 		if (driver == null) {
 			synchronized (Driver.class) {
-				switch (ConfigurationReader.getProperty("browser")) {
-					if (driver == null) {
+				if (driver == null) {
+					switch (ConfigurationReader.getProperty("browser")) {
 						case "firefox":
 							WebDriverManager.firefoxdriver().setup();
 							driver = new FirefoxDriver();
@@ -58,7 +58,5 @@ public class Driver {
 			driver.quit();
 			driver = null;
 		}
-
 	}
-
 }
