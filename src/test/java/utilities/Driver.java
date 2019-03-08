@@ -10,37 +10,44 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Driver {
 
-	private static WebDriver driver;
+	private static volatile WebDriver driver;
+	
+	private Driver() {
+	}
 
 	public static WebDriver getInstance() {
 
 		if (driver == null) {
-			switch (ConfigurationReader.getProperty("browser")) {
-			case "firefox":
-				WebDriverManager.firefoxdriver().setup();
-				driver = new FirefoxDriver();
-				break;
-			case "chrome":
-				WebDriverManager.chromedriver().setup();
-				driver = new ChromeDriver();
-				break;
-			case "headless_chrome":
-				ChromeOptions options = new ChromeOptions();
+			synchronized (Driver.class) {
+				switch (ConfigurationReader.getProperty("browser")) {
+					if (driver == null) {
+						case "firefox":
+							WebDriverManager.firefoxdriver().setup();
+							driver = new FirefoxDriver();
+							break;
+						case "chrome":
+							WebDriverManager.chromedriver().setup();
+							driver = new ChromeDriver();
+							break;
+						case "headless_chrome":
+							ChromeOptions options = new ChromeOptions();
 
-				options.addArguments("headless");
-				options.addArguments("window-size=1200x600");
-				options.addArguments("--disable-infobars");
+							options.addArguments("headless");
+							options.addArguments("window-size=1200x600");
+							options.addArguments("--disable-infobars");
 
-				WebDriverManager.chromedriver().setup();
-				driver = new ChromeDriver(options);
-				break;
-			case "ie":
-				WebDriverManager.iedriver().setup();
-				driver = new InternetExplorerDriver();
-				break;
-			default:
-				WebDriverManager.chromedriver().setup();
-				driver = new ChromeDriver();
+							WebDriverManager.chromedriver().setup();
+							driver = new ChromeDriver(options);
+							break;
+						case "ie":
+							WebDriverManager.iedriver().setup();
+							driver = new InternetExplorerDriver();
+							break;
+						default:
+							WebDriverManager.chromedriver().setup();
+							driver = new ChromeDriver();
+					}
+				}
 			}
 		}
 		return driver;
